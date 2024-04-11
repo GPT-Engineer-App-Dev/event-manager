@@ -16,7 +16,10 @@ const Index = () => {
     try {
       const response = await fetch("http://localhost:1337/api/events");
       const data = await response.json();
-      const mappedEvents = data.map((event) => event.attributes);
+      const mappedEvents = data.data.map((event) => ({
+        id: event.id,
+        ...event.attributes,
+      }));
       setEvents(mappedEvents);
       setLoading(false);
     } catch (error) {
