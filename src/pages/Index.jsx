@@ -66,6 +66,34 @@ const Index = () => {
                 const finalRef = React.useRef();
                 const toast = useToast();
 
+                const handleDelete = async (id) => {
+                  if (!window.confirm("Are you sure you want to delete this event?")) return;
+                  try {
+                    const response = await fetch(`http://localhost:1337/api/events/${id}`, {
+                      method: "DELETE",
+                    });
+                    if (response.ok) {
+                      toast({
+                        title: "Event deleted.",
+                        description: "The event has been successfully deleted.",
+                        status: "success",
+                        duration: 9000,
+                        isClosable: true,
+                      });
+                      fetchEvents();
+                    } else {
+                      throw new Error("Failed to delete event");
+                    }
+                  } catch (error) {
+                    toast({
+                      title: "Error deleting event.",
+                      description: error.toString(),
+                      status: "error",
+                      duration: 9000,
+                      isClosable: true,
+                    });
+                  }
+                };
                 const handleEdit = async () => {
                   try {
                     const response = await fetch(`http://localhost:1337/api/events/${event.id}`, {
@@ -106,8 +134,11 @@ const Index = () => {
                       {event.name}
                     </Heading>
                     <Text>{event.description}</Text>
-                    <Button ml={4} onClick={onOpen}>
+                    <Button ml={4} onClick={onOpen} mr={2}>
                       Edit
+                    </Button>
+                    <Button colorScheme="red" onClick={() => handleDelete(event.id)}>
+                      Delete
                     </Button>
                     <Modal initialFocusRef={initialRef} finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
                       <ModalOverlay />
