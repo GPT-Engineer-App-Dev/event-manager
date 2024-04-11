@@ -16,7 +16,8 @@ const Index = () => {
     try {
       const response = await fetch("http://localhost:1337/api/events");
       const data = await response.json();
-      setEvents(data);
+      const mappedEvents = data.map((event) => event.attributes);
+      setEvents(mappedEvents);
       setLoading(false);
     } catch (error) {
       setError("Failed to fetch events. Please try again.");
@@ -101,7 +102,7 @@ const Index = () => {
                       headers: {
                         "Content-Type": "application/json",
                       },
-                      body: JSON.stringify({ name: eventName, description }),
+                      body: JSON.stringify({ data: { attributes: { name: eventName, description } } }),
                     });
 
                     if (response.ok) {
