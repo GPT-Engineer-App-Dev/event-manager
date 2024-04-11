@@ -36,7 +36,7 @@ const Index = () => {
         <Box bg="gray.100" width="200px" p={4}>
           <VStack align="stretch" spacing={4}>
             <Link>Events</Link>
-            <Link>Create Event</Link>
+            <Link to="/create-event">Create Event</Link>
             <Link>Profile</Link>
           </VStack>
         </Box>
