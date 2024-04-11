@@ -14,7 +14,7 @@ function CreateEvent() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: eventName, description }),
+        body: JSON.stringify({ data: { attributes: { name: eventName, description } } }),
       });
 
       if (response.ok) {
